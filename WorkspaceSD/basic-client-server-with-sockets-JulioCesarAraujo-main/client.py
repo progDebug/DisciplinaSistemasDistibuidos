@@ -9,7 +9,7 @@ mensagem = '1:arara,1:a base do teto desaba,1:rodou na prancha'
 s.send(str.encode(mensagem))  
 
 # Como enviamos 4 comandos separados por vírgula, esperamos 4 respostas
-total_respostas_esperadas = 4   # <--- ALTERAÇÃO AQUI: de 3 para 4
+total_respostas_esperadas = 4   # Mudar caso aumente o número de requisições
 
 print("Aguardando respostas do servidor...")
 
