@@ -1,0 +1,39 @@
+Tarefa: CRDTs e Consistência Eventual (ASR16)
+
+Pesquise sobre CRDTs (Conflict-free Replicated Data Types) e responda:
+
+O que são CRDTs?
+
+CRDTs (Conflict-free Replicated Data Types) são estruturas de dados especiais usadas em sistemas distribuídos que permitem que múltiplas cópias de um dado sejam atualizadas simultaneamente e de forma independente, em diferentes dispositivos ou servidores, garantindo que todas elas eventualmente entrem em acordo (convergência) automaticamente e sem conflitos.
+
+Como eles realizam consistência eventual?
+
+Em CRDTs baseados em estado a garantia de consistência é: A função de merge deve formar um join semilattice, garantindo que o resultado da união seja sempre o mesmo, não importa a ordem, e que o dado sempre avance para uma versão mais atualizada (monotonicidade).
+Em CRDTs Baseados em Operação a garantia de consistência é: Para que o resultado seja consistente mesmo que as operações cheguem fora de ordem, elas precisam ser comutativas (a ordem dos fatores não altera o resultado) e idempotentes (aplicar a mesma operação várias vezes tem o mesmo efeito de aplicá-la apenas uma vez).
+
+Descreva os tipos de aplicações para os quais CRDTs são apropriados.
+
+CRDTs são ideais para aplicações que exigem alta disponibilidade, funcionamento offline e onde conflitos podem ser resolvidos automaticamente sem intervenção humana.Abaixo estão as principais categorias de aplicações apropriadas para essa tecnologia:
+1. Ferramentas de Colaboração em Tempo RealAplicações onde múltiplos usuários editam o mesmo arquivo simultaneamente.Editores de texto: Documentos compartilhados (estilo Google Docs ou Notion).Quadros brancos virtuais: Ferramentas de design e mapas mentais (estilo Figma ou Miro).Gerenciadores de tarefas: Quadros Kanban onde cartões são movidos por várias pessoas ao mesmo tempo.
+2. Aplicativos com Suporte Offline Primeiro (Offline-First)Sistemas que precisam funcionar perfeitamente sem conexão com a internet e sincronizar mais tarde.Aplicativos de notas: Registro de informações locais que sincronizam ao detectar rede.Leitores de e-mail: Marcar mensagens como lidas ou arquivadas enquanto estiver em um avião.Coleta de dados em campo: Formulários preenchidos em áreas rurais sem sinal de celular.
+3. Sistemas de Mensageria e Redes SociaisAmbientes onde a ordem exata global das mensagens importa menos do que a entrega rápida.Chats e mensageiros: Aplicativos de conversa (estilo WhatsApp) onde mensagens e reações (emojis) acumulam de forma independente.Contadores de engajamento: Sistemas de curtidas, visualizações e compartilhamentos em redes sociais de grande escala.
+4. Redes de Distribuição de Conteúdo (CDNs) e Redes P2PSistemas distribuídos geograficamente que precisam atualizar estados sem um servidor centralizado.Sistemas de arquivos distribuídos: Sincronização de arquivos entre nós descentralizados.Redes Peer-to-Peer (P2P): Compartilhamento de dados onde os nós entram e saem da rede constantemente. 
+5. Carrinhos de Compras e Catálogos de E-commerceCenários onde o cliente nunca pode ser impedido de adicionar um item ao carrinho devido a falhas na rede.Adição de itens: O carrinho acumula produtos localmente e resolve uniões de conjuntos de forma automática ao finalizar a compra.
+
+Discuta as limitações.
+
+Operações Não Comutativas: Nem todas as ações são comutativas (ou seja, a ordem altera o resultado). Isso limita os tipos de dados que podem ser modelados com sucesso usando apenas CRDTs.Alto Uso de Memória: Estruturas baseadas em estado enviam todo o histórico ou dicionários de dados para convergência, o que aumenta o volume de tráfego na rede. Em CRDTs baseados em operação, é necessário manter metadados e logs do histórico para evitar duplicações, aumentando o consumo de memória.Complexidade na Exclusão (Tombstones): Remover itens de conjuntos (sets) pode ser complexo. Geralmente, é preciso criar tombstones (marcas de exclusão) permanentes, consumindo armazenamento extra para garantir que a remoção seja propagada para nós lentos ou offline.Falta de Validação Condicional: Como os nós operam de forma isolada e autônoma, não é possível executar lógicas de validação dependentes de um estado global centralizado antes de aplicar uma alteração.
+
+Descreva algumas implementações e aplicações reais.
+
+Aplicativos móveis que armazenam dados no dispositivo local e precisam sincronizá-los com outros dispositivos do mesmo usuário (como calendários, notas, contatos ou lembretes);
+Bancos de dados distribuídos, que mantêm múltiplas réplicas dos dados (no mesmo data center ou em locais diferentes) para que o sistema continue funcionando corretamente caso algumas das réplicas fiquem offline;
+Softwares de colaboração, como Google Docs, Trello, Figma ou muitos outros, nos quais vários usuários podem fazer alterações simultâneas no mesmo arquivo ou conjunto de dados;
+Sistemas de armazenamento e processamento de dados em larga escala, que replicam dados para alcançar escalabilidade global.
+
+fontes: 
+https://dev.to/foxgem/crdts-achieving-eventual-consistency-in-distributed-systems-296g
+https://crdt.tech/
+https://dl.acm.org/doi/10.5555/2050613.2050642
+https://medium.com/@istanbul_techie/a-look-at-conflict-free-replicated-data-types-crdt-221a5f629e7e
+https://tede.unioeste.br/bitstream/tede/6942/2/Leonardo%20de%20Freitas%20Galesky.pdf
