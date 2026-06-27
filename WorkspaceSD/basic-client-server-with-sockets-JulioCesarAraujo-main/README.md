@@ -16,3 +16,10 @@ permita que o cliente chame mais de uma funcionalidade diferente no servidor a c
 Entregar via GitHub Classroom neste link.
 
 Postar o link do repo no campo de texto da tarefa.
+
+# EXPLICANDO AS ALTERAÇÕES
+
+Adicionei três operações simples:
+a) Acessado pelo comando 1 o servidor verifica se uma palavra ou frase passada como parâmetro é palindromo ou não. 
+b) Acessado pelo comando 2 o servidor coloca todas as letras da palavra enviada como parâmetro em minúsculo.  
+c) Acessado pelo comando 3 o servidor coloca todas as letras da palavra enviada como parâmetro em maiúsculo. 
