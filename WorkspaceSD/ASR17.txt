@@ -1,0 +1,16 @@
+O design de um protocolo híbrido para consistência sequencial, conforme descrito na Nota 7.8 das fontes, visa resolver problemas de escalabilidade ao combinar duas técnicas de ordenação total: o uso de sequenciadores centrais e o multicast simétrico baseado em relógios lógicos de Lamport.
+Design do Protocolo Híbrido
+O protocolo organiza os processos do sistema em uma estrutura de dois níveis para distribuir a carga de processamento e ordenação:
+Agrupamento de Processos: Os processos que não atuam como sequenciadores são divididos em grupos menores. Cada grupo é associado a um único sequenciador local.
+Fluxo de Atualização Local: Quando um processo comum deseja realizar uma atualização, ele envia a requisição para o seu sequenciador designado e aguarda um aviso de recebimento (acknowledgment).
+Coordenação Global entre Sequenciadores: Os sequenciadores formam um grupo próprio e utilizam o mecanismo de multicast totalmente ordenado de Lamport para trocar as operações entre si. Isso significa que os sequenciadores atribuem timestamps lógicos às mensagens e usam filas de mensagens e confirmações para garantir que todos os sequenciadores concordem com a mesma ordem global de execução.
+Execução e Confirmação: Uma vez que uma operação é posicionada na ordem total global pelos sequenciadores, o sequenciador original confirma o processamento para o processo solicitante.
+Trade-offs no Dimensionamento do Sistema
+O dimensionamento desse sistema exige um equilíbrio cuidadoso na definição do número de sequenciadores, envolvendo os seguintes compromissos (trade-offs):
+Carga vs. Sobrecarga de Comunicação:
+Um número pequeno de sequenciadores (ou apenas um) simplifica a ordenação, mas cria um gargalo de desempenho e um ponto único de falha.
+Um número elevado de sequenciadores distribui melhor as requisições dos processos clientes, mas aumenta a complexidade e o tráfego de rede no grupo de sequenciadores, já que o algoritmo de Lamport exige que todos os membros do grupo troquem mensagens para confirmar a ordem de cada evento.
+Taxa de Atualização (Update Rate): O número ideal de sequenciadores depende da frequência com que as atualizações ocorrem. Se a taxa de atualização for muito alta em muitos processos, o multicast simétrico entre muitos sequenciadores pode se tornar ineficiente devido ao excesso de mensagens de controle.
+Exemplos e Aplicações
+Exemplo de Banco de Dados Replicado: Imagine um banco com réplicas em Nova York, Londres e Tóquio. Em vez de ter um único servidor no mundo ordenando tudo (o que causaria latência extrema para Tóquio), cada cidade pode ter um sequenciador. Os funcionários locais enviam depósitos para o sequenciador da sua cidade. Os sequenciadores de NY, Londres e Tóquio coordenam-se entre si usando timestamps de Lamport para garantir que o depósito de $100 em NY e o cálculo de 1% de juros em Tóquio sejam aplicados exatamente na mesma ordem em todas as cópias globais, evitando saldos divergentes.
+Sistemas de Arquivos Distribuídos: Em um ambiente onde milhares de clientes acessam arquivos, o sistema pode agrupar clientes por racks de servidores, onde cada rack possui um sequenciador. Isso evita que o servidor central de nomes seja inundado por cada pequena operação de escrita, delegando a ordenação inicial para sequenciadores de nível intermediário que depois se sincronizam globalmente.
