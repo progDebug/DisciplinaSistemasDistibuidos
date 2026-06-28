@@ -1,11 +1,12 @@
 import multiprocessing #-
 import zmq
 from time import sleep #-
+from const import IP_SERVER_1, PORT_SERVER_1, IP_SERVER_2, PORT_SERVER_2
 
 def server():
   context = zmq.Context()
   socket  = context.socket(zmq.REP)       # create reply socket
-  socket.bind("tcp://*:12345")            # bind socket to address
+  socket.bind(f"tcp://*:{PORT_SERVER_2}")            # bind socket to address
 
   while True:
     message = socket.recv()               # wait for incoming message
@@ -19,7 +20,7 @@ def client():
   context = zmq.Context()
   socket  = context.socket(zmq.REQ)       # create request socket
 
-  socket.connect("tcp://localhost:12345") # block until connected
+  socket.connect(f"tcp://{IP_SERVER_1}:{PORT_SERVER_1}") # block until connected
   socket.send(b"Hello world")             # send message
   message = socket.recv()                 # block until response
   socket.send(b"STOP")                    # tell server to stop

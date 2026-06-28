@@ -1,0 +1,4 @@
+IP_SERVER_1 = ""
+PORT_SERVER_1 = ""
+IP_SERVER_2 = ""
+PORT_SERVER_2 = ""
