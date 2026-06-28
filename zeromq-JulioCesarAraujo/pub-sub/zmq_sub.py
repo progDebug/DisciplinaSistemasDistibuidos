@@ -8,7 +8,7 @@ def client():
     socket = context.socket(zmq.SUB)
     socket.connect(f"tcp://{IP_SERVER_2}:{PORT_SERVER_2}")
     socket.setsockopt(zmq.SUBSCRIBE, b"timestamp:")
-    for i in range(5):
+    while(True):
         time = socket.recv()
         print(time.decode())
 
