@@ -17,7 +17,7 @@ def client():
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
     socket.connect(f"tcp://{IP_SERVER_1}:{PORT_SERVER_1}")  # Conecta ao publisher local
-    socket.setsockopt_string(zmq.SUBSCRIBE, "timestamp:")  # Filtra por prefixo
+    socket.setsockopt_string(zmq.SUBSCRIBE, "TIME")  # Filtra por prefixo
 
     while True:
         mensagem = socket.recv_string()
