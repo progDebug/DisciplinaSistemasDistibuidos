@@ -1,4 +1,4 @@
-IP_SERVER_1 = "192.0.1.8" # IP do pub
-IP_SERVER_2 = "192.0.1.8" # IP do sup/pub
-PORT_SERVER_1 = "12345"
-PORT_SERVER_2 = "56789"
+IP_SERVER_1 = "98.92.68.157" # IP do pub
+IP_SERVER_2 = "3.236.86.178" # IP do sup/pub
+PORT_SERVER_1 = "5678"
+PORT_SERVER_2 = "5679"
